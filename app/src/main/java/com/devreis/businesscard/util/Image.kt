@@ -12,6 +12,7 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.core.content.FileProvider
 import com.devreis.businesscard.R
 import java.io.File
 import java.io.FileOutputStream
@@ -48,7 +49,13 @@ class Image {
                 //Devices rodando < Q
                 val imagesDir = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
                 val image = File(imagesDir, filename)
-                shareIntent(context, Uri.fromFile(image))
+
+                val fileUri = FileProvider.getUriForFile(
+                    context,
+                    "com.devreis.businesscard.provider",
+                    image)
+
+                shareIntent(context, fileUri)
                 fos = FileOutputStream(image)
             }
             fos?.use {
